@@ -2,3 +2,8 @@ id	species	speciesId	dataset	url
 163829561	Chuck-will's-widow	1	train	https://download.ams.birds.cornell.edu/api/v1/asset/163829561
 164662831	Chuck-will's-widow	1	validate	https://download.ams.birds.cornell.edu/api/v1/asset/164662831
 164553531	Brown-headed Nuthatch	2	train	https://download.ams.birds.cornell.edu/api/v1/asset/164553531
+164553561	Brown-headed Nuthatch	2	validate	https://download.ams.birds.cornell.edu/api/v1/asset/164553561
+164564611	Red-eyed Vireo	3	train	https://download.ams.birds.cornell.edu/api/v1/asset/164564611
+163579621	Red-eyed Vireo	3	train	https://download.ams.birds.cornell.edu/api/v1/asset/163579621
+164288681	Red-eyed Vrieo	3	validate	https://download.ams.birds.cornell.edu/api/v1/asset/164288681
+163224861	Easter Whip-poor-will	4	train	https://download.ams.birds.cornell.edu/api/v1/asset/163224861
