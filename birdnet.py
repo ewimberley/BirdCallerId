@@ -58,7 +58,7 @@ def wavFileToNpy(filename):
     #np.save(sys.argv[2], wavNp)
     return wav[0], wavNp
 
-def createDataset(dataFile):
+def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     df = pd.read_csv(dataFile, sep="\t")
     #print(df.head())
     X_train = []
@@ -67,6 +67,7 @@ def createDataset(dataFile):
     y_validate = []
     X_test = []
     y_test = []
+    print("File\tSpecies\tSpeciesId\tSampling Freq (Hz)\tLength (Secs)")
     for index, row in df.iterrows():
         dataFile = str(row['id']) + ".wav"
         species = str(row['species'])
@@ -77,14 +78,16 @@ def createDataset(dataFile):
         time = len(data) / freq
         seconds = (str(int(time)) + " Seconds")
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
-        y = row['speciesId']
         f, t, x = STFT(data, freq)
+        numSamples = int(samplesPerMinute * time / 60.0)
+        print("Number of samples: " + str(numSamples))
+        y = speciesId
         #print(x)
         #if dataset == "train":
 
     return X_train, y_train, X_validate, y_validate, X_test, y_test
 
-createDataset("data.csv")
+createDataset("data.csv", 5.0, 60)
 exit(0)
 
 #Below is for debugging purposes
