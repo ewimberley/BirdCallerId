@@ -79,8 +79,21 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         seconds = (str(int(time)) + " Seconds")
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         f, t, x = STFT(data, freq)
+        x = np.transpose(x)
+        numWindows = len(x)
+        print("Number of windows: " + str(numWindows))
+        windowsPerSec = numWindows / time #this is not right?
+        print("Windows per second: " + str(windowsPerSec))
         numSamples = int(samplesPerMinute * time / 60.0)
         print("Number of samples: " + str(numSamples))
+        #print(x.shape)
+        #print(x)
+        sampleStartIndeces = np.linspace(0, numWindows, num=numSamples, dtype=np.int32)
+        print(sampleStartIndeces)
+        for startIndex in sampleStartIndeces:
+            endIndex = startIndex + int(sampleLenSeconds * numWindows)
+            sample = x[startIndex:endIndex,]
+            print(sample)
         y = speciesId
         #print(x)
         #if dataset == "train":
