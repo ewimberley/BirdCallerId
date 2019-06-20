@@ -69,14 +69,14 @@ def createDataset(dataFile):
     y_test = []
     for index, row in df.iterrows():
         dataFile = str(row['id']) + ".wav"
-        species = str(row['speciesId'])
+        species = str(row['species'])
+        speciesId = str(row['speciesId'])
         dataset = row['dataset']
-
-        print(dataFile + "\t" + species)
         freq, data = wavFileToNpy("Data\\" + dataFile)
-        print(str(freq) + " Hz")
+        samplingFreq = str(freq) + " Hz"
         time = len(data) / freq
-        print(str(int(time)) + " Seconds")
+        seconds = (str(int(time)) + " Seconds")
+        print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         y = row['speciesId']
         f, t, x = STFT(data, freq)
         #print(x)
