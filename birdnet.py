@@ -48,7 +48,7 @@ def plotSTFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=256, fi
     plt.savefig('C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\test.png')
     return
 
-def STFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=256):
+def STFT(inputSignal, samplingFreq, window='hann', nperseg=512, nfft=1024):
     f, t, Zxx = signal.stft(inputSignal, samplingFreq, nfft=nfft, window=window, nperseg=nperseg)
     return f, t, np.abs(Zxx)
 
@@ -103,6 +103,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
+            #print(sample.shape)
             xArray.append(sample)
             yArray.append(speciesId)
         #print(x)
@@ -111,7 +112,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     return np.stack(X_train), np.stack(y_train), np.stack(X_validate), np.stack(y_validate), np.stack(X_test), np.stack(y_test)
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 60)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 80)
 print("*" * 30)
 trainModel(X_train, y_train, X_validate,y_validate)
 exit(0)

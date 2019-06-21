@@ -1,0 +1,356 @@
+C:\Users\blank\AppData\Local\Programs\Python\Python37\python.exe C:/Users/blank/Documents/GitHub/birdCallClassifier/birdnet.py
+Using TensorFlow backend.
+File	Species	SpeciesId	Sampling Freq (Hz)	Length (Secs)
+163829561.wav	Chuck-will's-widow	0	16000 Hz	33 Seconds
+Number of windows: 2080
+Windows per second: 62
+Number of samples: 44
+Windows per sample: 620
+162653591.wav	Chuck-will's-widow	0	16000 Hz	50 Seconds
+Number of windows: 3175
+Windows per second: 62
+Number of samples: 67
+Windows per sample: 620
+154282101.wav	Chuck-will's-widow	0	16000 Hz	16 Seconds
+Number of windows: 1047
+Windows per second: 62
+Number of samples: 22
+Windows per sample: 620
+159074681.wav	Chuck-will's-widow	0	16000 Hz	65 Seconds
+Number of windows: 4104
+Windows per second: 62
+Number of samples: 87
+Windows per sample: 620
+26545071.wav	Chuck-will's-widow	0	16000 Hz	65 Seconds
+Number of windows: 4067
+Windows per second: 62
+Number of samples: 86
+Windows per sample: 620
+164662831.wav	Chuck-will's-widow	0	16000 Hz	36 Seconds
+Number of windows: 2276
+Windows per second: 62
+Number of samples: 48
+Windows per sample: 620
+135598141.wav	Chuck-will's-widow	0	16000 Hz	13 Seconds
+Number of windows: 820
+Windows per second: 62
+Number of samples: 17
+Windows per sample: 620
+148639491.wav	Chuck-will's-widow	0	16000 Hz	46 Seconds
+Number of windows: 2891
+Windows per second: 62
+Number of samples: 61
+Windows per sample: 620
+159848811.wav	Chuck-will's-widow	0	16000 Hz	33 Seconds
+Number of windows: 2099
+Windows per second: 62
+Number of samples: 44
+Windows per sample: 620
+164662851.wav	Chuck-will's-widow	0	16000 Hz	31 Seconds
+Number of windows: 1951
+Windows per second: 62
+Number of samples: 41
+Windows per sample: 620
+164553531.wav	Brown-headed Nuthatch	1	16000 Hz	20 Seconds
+Number of windows: 1280
+Windows per second: 62
+Number of samples: 27
+Windows per sample: 620
+108922041.wav	Brown-headed Nuthatch	1	16000 Hz	35 Seconds
+Number of windows: 2209
+Windows per second: 62
+Number of samples: 47
+Windows per sample: 620
+92752791.wav	Brown-headed Nuthatch	1	16000 Hz	22 Seconds
+Number of windows: 1386
+Windows per second: 62
+Number of samples: 29
+Windows per sample: 620
+72500361.wav	Brown-headed Nuthatch	1	16000 Hz	20 Seconds
+Number of windows: 1255
+Windows per second: 62
+Number of samples: 26
+Windows per sample: 620
+164553561.wav	Brown-headed Nuthatch	1	16000 Hz	40 Seconds
+Number of windows: 2530
+Windows per second: 62
+Number of samples: 53
+Windows per sample: 620
+23337661.wav	Brown-headed Nuthatch	1	16000 Hz	12 Seconds
+Number of windows: 784
+Windows per second: 62
+Number of samples: 16
+Windows per sample: 620
+102749701.wav	Brown-headed Nuthatch	1	16000 Hz	20 Seconds
+Number of windows: 1278
+Windows per second: 62
+Number of samples: 27
+Windows per sample: 620
+164564611.wav	Red-eyed Vireo	2	16000 Hz	60 Seconds
+Number of windows: 3806
+Windows per second: 62
+Number of samples: 81
+Windows per sample: 620
+163579621.wav	Red-eyed Vireo	2	16000 Hz	24 Seconds
+Number of windows: 1505
+Windows per second: 62
+Number of samples: 32
+Windows per sample: 620
+157715461.wav	Red-eyed Vireo	2	16000 Hz	36 Seconds
+Number of windows: 2282
+Windows per second: 62
+Number of samples: 48
+Windows per sample: 620
+157714641.wav	Red-eyed Vireo	2	16000 Hz	72 Seconds
+Number of windows: 4542
+Windows per second: 62
+Number of samples: 96
+Windows per sample: 620
+164288681.wav	Red-eyed Vireo	2	16000 Hz	18 Seconds
+Number of windows: 1166
+Windows per second: 62
+Number of samples: 24
+Windows per sample: 620
+158243071.wav	Red-eyed Vireo	2	16000 Hz	67 Seconds
+Number of windows: 4241
+Windows per second: 62
+Number of samples: 90
+Windows per sample: 620
+151709941.wav	Red-eyed Vireo	2	16000 Hz	20 Seconds
+Number of windows: 1280
+Windows per second: 62
+Number of samples: 27
+Windows per sample: 620
+163782961.wav	Red-eyed Vireo	2	16000 Hz	21 Seconds
+Number of windows: 1319
+Windows per second: 62
+Number of samples: 28
+Windows per sample: 620
+163224861.wav	Eastern Whip-poor-will	3	16000 Hz	18 Seconds
+Number of windows: 1148
+Windows per second: 62
+Number of samples: 24
+Windows per sample: 620
+159073831.wav	Eastern Whip-poor-will	3	16000 Hz	85 Seconds
+Number of windows: 5324
+Windows per second: 62
+Number of samples: 113
+Windows per sample: 620
+108922211.wav	Eastern Whip-poor-will	3	16000 Hz	48 Seconds
+Number of windows: 3040
+Windows per second: 62
+Number of samples: 64
+Windows per sample: 620
+159074681.wav	Eastern Whip-poor-will	3	16000 Hz	65 Seconds
+Number of windows: 4104
+Windows per second: 62
+Number of samples: 87
+Windows per sample: 620
+106700421.wav	Eastern Whip-poor-will	3	16000 Hz	65 Seconds
+Number of windows: 4106
+Windows per second: 62
+Number of samples: 87
+Windows per sample: 620
+160185091.wav	Eastern Whip-poor-will	3	16000 Hz	32 Seconds
+Number of windows: 2042
+Windows per second: 62
+Number of samples: 43
+Windows per sample: 620
+163075671.wav	Northern Cardinal	4	16000 Hz	39 Seconds
+Number of windows: 2454
+Windows per second: 62
+Number of samples: 52
+Windows per sample: 620
+155787431.wav	Northern Cardinal	4	16000 Hz	27 Seconds
+Number of windows: 1737
+Windows per second: 62
+Number of samples: 37
+Windows per sample: 620
+109136131.wav	Northern Cardinal	4	16000 Hz	50 Seconds
+Number of windows: 3169
+Windows per second: 62
+Number of samples: 67
+Windows per sample: 620
+92182651.wav	Northern Cardinal	4	16000 Hz	27 Seconds
+Number of windows: 1722
+Windows per second: 62
+Number of samples: 36
+Windows per sample: 620
+90073921.wav	Northern Cardinal	4	16000 Hz	29 Seconds
+Number of windows: 1869
+Windows per second: 62
+Number of samples: 39
+Windows per sample: 620
+162928951.wav	Northern Cardinal	4	16000 Hz	69 Seconds
+Number of windows: 4341
+Windows per second: 62
+Number of samples: 92
+Windows per sample: 620
+92373921.wav	Northern Cardinal	4	16000 Hz	47 Seconds
+Number of windows: 2966
+Windows per second: 62
+Number of samples: 63
+Windows per sample: 620
+146684121.wav	Northern Cardinal	4	16000 Hz	24 Seconds
+Number of windows: 1561
+Windows per second: 62
+Number of samples: 33
+Windows per sample: 620
+******************************
+(1124, 620, 513) (1124,) (665, 620, 513) (665,)
+['0' '1' '2' '3' '4']
+[[1. 0. 0. 0. 0.]
+ [1. 0. 0. 0. 0.]
+ [1. 0. 0. 0. 0.]
+ ...
+ [0. 0. 0. 0. 1.]
+ [0. 0. 0. 0. 1.]
+ [0. 0. 0. 0. 1.]]
+Samples: 1124
+Windows: 620
+Frequency windows: 513
+WARNING:tensorflow:From C:\Users\blank\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\framework\op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+Training
+WARNING:tensorflow:From C:\Users\blank\AppData\Local\Programs\Python\Python37\lib\site-packages\tensorflow\python\ops\math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+Train on 1124 samples, validate on 665 samples
+Epoch 1/5
+
+  64/1124 [>.............................] - ETA: 23:01 - loss: 1.6163 - acc: 0.1562
+ 128/1124 [==>...........................] - ETA: 19:44 - loss: 1.5065 - acc: 0.3125
+ 192/1124 [====>.........................] - ETA: 17:53 - loss: 1.3571 - acc: 0.4115
+ 256/1124 [=====>........................] - ETA: 16:24 - loss: 1.2573 - acc: 0.4883
+ 320/1124 [=======>......................] - ETA: 15:07 - loss: 1.1715 - acc: 0.5094
+ 384/1124 [=========>....................] - ETA: 13:55 - loss: 1.1206 - acc: 0.5208
+ 448/1124 [==========>...................] - ETA: 12:43 - loss: 1.0957 - acc: 0.5312
+ 512/1124 [============>.................] - ETA: 11:33 - loss: 1.0694 - acc: 0.5664
+ 576/1124 [==============>...............] - ETA: 10:22 - loss: 1.0678 - acc: 0.5885
+ 640/1124 [================>.............] - ETA: 9:11 - loss: 1.0286 - acc: 0.6125 
+ 704/1124 [=================>............] - ETA: 8:01 - loss: 0.9996 - acc: 0.6264
+ 768/1124 [===================>..........] - ETA: 6:49 - loss: 0.9651 - acc: 0.6419
+ 832/1124 [=====================>........] - ETA: 5:37 - loss: 0.9285 - acc: 0.6562
+ 896/1124 [======================>.......] - ETA: 4:24 - loss: 0.8934 - acc: 0.6674
+ 960/1124 [========================>.....] - ETA: 3:11 - loss: 0.8769 - acc: 0.6740
+1024/1124 [==========================>...] - ETA: 1:57 - loss: 0.8453 - acc: 0.6826
+1088/1124 [============================>.] - ETA: 42s - loss: 0.8189 - acc: 0.6939 
+1124/1124 [==============================] - 1680s 1s/step - loss: 0.8016 - acc: 0.6993 - val_loss: 2.6630 - val_acc: 0.3579
+Epoch 2/5
+
+  64/1124 [>.............................] - ETA: 21:32 - loss: 0.5566 - acc: 0.7656
+ 128/1124 [==>...........................] - ETA: 20:09 - loss: 0.4526 - acc: 0.8125
+ 192/1124 [====>.........................] - ETA: 19:21 - loss: 0.4061 - acc: 0.8490
+ 256/1124 [=====>........................] - ETA: 18:24 - loss: 0.4118 - acc: 0.8555
+ 320/1124 [=======>......................] - ETA: 17:16 - loss: 0.3894 - acc: 0.8594
+ 384/1124 [=========>....................] - ETA: 16:03 - loss: 0.3632 - acc: 0.8750
+ 448/1124 [==========>...................] - ETA: 14:50 - loss: 0.3534 - acc: 0.8728
+ 512/1124 [============>.................] - ETA: 13:34 - loss: 0.3477 - acc: 0.8691
+ 576/1124 [==============>...............] - ETA: 12:13 - loss: 0.3366 - acc: 0.8698
+ 640/1124 [================>.............] - ETA: 10:52 - loss: 0.3408 - acc: 0.8703
+ 704/1124 [=================>............] - ETA: 9:30 - loss: 0.3303 - acc: 0.8736 
+ 768/1124 [===================>..........] - ETA: 8:07 - loss: 0.3240 - acc: 0.8672
+ 832/1124 [=====================>........] - ETA: 6:42 - loss: 0.3114 - acc: 0.8702
+ 896/1124 [======================>.......] - ETA: 5:15 - loss: 0.3030 - acc: 0.8694
+ 960/1124 [========================>.....] - ETA: 3:48 - loss: 0.2943 - acc: 0.8708
+1024/1124 [==========================>...] - ETA: 2:20 - loss: 0.2823 - acc: 0.8730
+1088/1124 [============================>.] - ETA: 50s - loss: 0.2767 - acc: 0.8741 
+1124/1124 [==============================] - 1980s 2s/step - loss: 0.2790 - acc: 0.8710 - val_loss: 3.2073 - val_acc: 0.3188
+Epoch 3/5
+
+  64/1124 [>.............................] - ETA: 25:18 - loss: 0.1209 - acc: 0.9844
+ 128/1124 [==>...........................] - ETA: 23:05 - loss: 0.6077 - acc: 0.8828
+ 192/1124 [====>.........................] - ETA: 21:37 - loss: 0.9751 - acc: 0.8073
+ 256/1124 [=====>........................] - ETA: 20:14 - loss: 0.9432 - acc: 0.8008
+ 320/1124 [=======>......................] - ETA: 18:51 - loss: 0.8928 - acc: 0.8000
+ 384/1124 [=========>....................] - ETA: 17:29 - loss: 0.9480 - acc: 0.7995
+ 448/1124 [==========>...................] - ETA: 16:06 - loss: 0.8841 - acc: 0.8080
+ 512/1124 [============>.................] - ETA: 14:43 - loss: 0.8358 - acc: 0.8145
+ 576/1124 [==============>...............] - ETA: 13:16 - loss: 0.7892 - acc: 0.8264
+ 640/1124 [================>.............] - ETA: 11:48 - loss: 0.7456 - acc: 0.8422
+ 704/1124 [=================>............] - ETA: 10:18 - loss: 0.7171 - acc: 0.8494
+ 768/1124 [===================>..........] - ETA: 8:48 - loss: 0.6803 - acc: 0.8607 
+ 832/1124 [=====================>........] - ETA: 7:17 - loss: 0.6486 - acc: 0.8690
+ 896/1124 [======================>.......] - ETA: 5:44 - loss: 0.6171 - acc: 0.8772
+ 960/1124 [========================>.....] - ETA: 4:09 - loss: 0.5901 - acc: 0.8833
+1024/1124 [==========================>...] - ETA: 2:33 - loss: 0.5824 - acc: 0.8838
+1088/1124 [============================>.] - ETA: 56s - loss: 0.5814 - acc: 0.8814 
+1124/1124 [==============================] - 2173s 2s/step - loss: 0.5736 - acc: 0.8817 - val_loss: 1.9701 - val_acc: 0.2947
+Epoch 4/5
+
+  64/1124 [>.............................] - ETA: 31:14 - loss: 0.3863 - acc: 0.8125
+ 128/1124 [==>...........................] - ETA: 30:00 - loss: 0.3363 - acc: 0.8438
+ 192/1124 [====>.........................] - ETA: 28:24 - loss: 0.3064 - acc: 0.8698
+ 256/1124 [=====>........................] - ETA: 26:59 - loss: 0.3007 - acc: 0.8672
+ 320/1124 [=======>......................] - ETA: 25:18 - loss: 0.3084 - acc: 0.8750
+ 384/1124 [=========>....................] - ETA: 23:33 - loss: 0.3043 - acc: 0.8724
+ 448/1124 [==========>...................] - ETA: 21:37 - loss: 0.3054 - acc: 0.8683
+ 512/1124 [============>.................] - ETA: 19:36 - loss: 0.3107 - acc: 0.8555
+ 576/1124 [==============>...............] - ETA: 17:37 - loss: 0.3175 - acc: 0.8438
+ 640/1124 [================>.............] - ETA: 15:36 - loss: 0.3209 - acc: 0.8422
+ 704/1124 [=================>............] - ETA: 13:37 - loss: 0.3216 - acc: 0.8438
+ 768/1124 [===================>..........] - ETA: 11:35 - loss: 0.3160 - acc: 0.8477
+ 832/1124 [=====================>........] - ETA: 9:34 - loss: 0.3105 - acc: 0.8558 
+ 896/1124 [======================>.......] - ETA: 7:28 - loss: 0.3141 - acc: 0.8583
+ 960/1124 [========================>.....] - ETA: 5:23 - loss: 0.3105 - acc: 0.8604
+1024/1124 [==========================>...] - ETA: 3:17 - loss: 0.3174 - acc: 0.8604
+1088/1124 [============================>.] - ETA: 1:11 - loss: 0.3199 - acc: 0.8594
+1124/1124 [==============================] - 2662s 2s/step - loss: 0.3163 - acc: 0.8621 - val_loss: 2.4601 - val_acc: 0.3293
+Epoch 5/5
+
+  64/1124 [>.............................] - ETA: 35:40 - loss: 0.3052 - acc: 0.8750
+ 128/1124 [==>...........................] - ETA: 34:15 - loss: 0.2585 - acc: 0.8984
+ 192/1124 [====>.........................] - ETA: 32:16 - loss: 0.2281 - acc: 0.9219
+ 256/1124 [=====>........................] - ETA: 30:05 - loss: 0.2628 - acc: 0.8984
+ 320/1124 [=======>......................] - ETA: 27:57 - loss: 0.2685 - acc: 0.8875
+ 384/1124 [=========>....................] - ETA: 25:40 - loss: 0.2566 - acc: 0.8906
+ 448/1124 [==========>...................] - ETA: 23:32 - loss: 0.2529 - acc: 0.8839
+ 512/1124 [============>.................] - ETA: 21:22 - loss: 0.2446 - acc: 0.8867
+ 576/1124 [==============>...............] - ETA: 19:25 - loss: 0.2613 - acc: 0.8733
+ 640/1124 [================>.............] - ETA: 17:10 - loss: 0.2566 - acc: 0.8734
+ 704/1124 [=================>............] - ETA: 14:58 - loss: 0.2909 - acc: 0.8665
+ 768/1124 [===================>..........] - ETA: 12:47 - loss: 0.2814 - acc: 0.8672
+ 832/1124 [=====================>........] - ETA: 10:28 - loss: 0.2738 - acc: 0.8690
+ 896/1124 [======================>.......] - ETA: 8:10 - loss: 0.2685 - acc: 0.8705 
+ 960/1124 [========================>.....] - ETA: 5:53 - loss: 0.2765 - acc: 0.8698
+1024/1124 [==========================>...] - ETA: 3:36 - loss: 0.2938 - acc: 0.8643
+1088/1124 [============================>.] - ETA: 1:17 - loss: 0.3057 - acc: 0.8575
+1124/1124 [==============================] - 2885s 3s/step - loss: 0.3022 - acc: 0.8585 - val_loss: 1.5473 - val_acc: 0.4812
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+gaussian_dropout_1 (Gaussian (None, 620, 513)          0         
+_________________________________________________________________
+lstm_1 (LSTM)                (None, 620, 513)          2107404   
+_________________________________________________________________
+lstm_2 (LSTM)                (None, 620, 513)          2107404   
+_________________________________________________________________
+lstm_3 (LSTM)                (None, 620, 513)          2107404   
+_________________________________________________________________
+lstm_4 (LSTM)                (None, 513)               2107404   
+_______________________________________________________________128__
+dense_1 (Dense)              (None, 5)                 2570      
+=================================================================
+Total params: 8,432,186
+Trainable params: 8,432,186
+Non-trainable params: 0
+_________________________________________________________________
+None
+Evaluation
+
+128/665 [====>.........................] - ETA: 2:38
+256/665 [==========>...................] - ETA: 1:59
+384/665 [================>.............] - ETA: 1:22
+512/665 [======================>.......] - ETA: 44s 
+640/665 [===========================>..] - ETA: 7s 
+665/665 [==============================] - 197s 297ms/step
+Loss: 1.5473077333063112
+Accuracy: 0.4812030067121176
+[[ 70  56   0   0   0]
+ [ 13  39   0   0  17]
+ [  0   0 112   0  29]
+ [174   0   0   0   0]
+ [ 11   6  39   0  99]]
+
+Process finished with exit code 0
