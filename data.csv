@@ -1,22 +1,22 @@
 id	species	speciesId	dataset
-163829561	Chuck-will's-widow	1	train
-162653591	Chuck-will's-widow	1	train
-164662831	Chuck-will's-widow	1	validate
-159848811	Chuck-will's-widow	1	test
-164662851	Chuck-will's-widow	1	test
-164553531	Brown-headed Nuthatch	2	train
-108922041	Brown-headed Nuthatch	2	train
-164553561	Brown-headed Nuthatch	2	validate
-102749701	Brown-headed Nuthatch	2	test
-164564611	Red-eyed Vireo	3	train
-163579621	Red-eyed Vireo	3	train
-164288681	Red-eyed Vireo	3	validate
-163782961	Red-eyed Vireo	3	test
-163224861	Eastern Whip-poor-will	4	train
-159073831	Eastern Whip-poor-will	4	train
-159074681	Eastern Whip-poor-will	4	validate
-160185091	Eastern Whip-poor-will	4	test
-163075671	Northern Cardinal	5	train
-155787431	Northern Cardinal	5	train
-162928951	Northern Cardinal	5	validate
-146684121	Northern Cardinal	5	test
+163829561	Chuck-will's-widow	0	train
+162653591	Chuck-will's-widow	0	train
+164662831	Chuck-will's-widow	0	validate
+159848811	Chuck-will's-widow	0	test
+164662851	Chuck-will's-widow	0	test
+164553531	Brown-headed Nuthatch	1	train
+108922041	Brown-headed Nuthatch	1	train
+164553561	Brown-headed Nuthatch	1	validate
+102749701	Brown-headed Nuthatch	1	test
+164564611	Red-eyed Vireo	2	train
+163579621	Red-eyed Vireo	2	train
+164288681	Red-eyed Vireo	2	validate
+163782961	Red-eyed Vireo	2	test
+163224861	Eastern Whip-poor-will	3	train
+159073831	Eastern Whip-poor-will	3	train
+159074681	Eastern Whip-poor-will	3	validate
+160185091	Eastern Whip-poor-will	3	test
+163075671	Northern Cardinal	4	train
+155787431	Northern Cardinal	4	train
+162928951	Northern Cardinal	4	validate
+146684121	Northern Cardinal	4	test
