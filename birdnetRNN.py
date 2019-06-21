@@ -13,7 +13,7 @@ RNN = layers.LSTM
 EPOCS = 5
 HIDDEN_SIZE = 128
 BATCH_SIZE = 128
-LAYERS = 2
+LAYERS = 3
 
 def trainModel(X_train, y_train, X_test, y_test):
     print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
@@ -28,8 +28,10 @@ def trainModel(X_train, y_train, X_test, y_test):
     print("Samples: " + str(numSamples) + "\nWindows: " + str(numWindows) + "\nFrequency windows: " + str(numFreqs))
     model = Sequential()
     model.add(RNN(numFreqs, return_sequences=True))
-    for _ in range(LAYERS-1):
-        model.add(RNN(numFreqs))
+    for _ in range(LAYERS-2):
+        model.add(RNN(HIDDEN_SIZE, return_sequences=True))
+    model.add(RNN(HIDDEN_SIZE))
+    model.add(layers.Dense(HIDDEN_SIZE, activation='sigmoid'))
     model.add(layers.Dense(numClasses, activation='sigmoid'))
     #model.add(layers.TimeDistributed(layers.Dense(len(X_train), activation='softmax')))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])

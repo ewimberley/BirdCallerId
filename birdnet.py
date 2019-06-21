@@ -82,7 +82,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         x = np.transpose(x)
         numWindows = len(x)
         print("Number of windows: " + str(numWindows))
-        windowsPerSec = numWindows / time #this is not right?
+        windowsPerSec = int(numWindows / time) #this is not right?
         print("Windows per second: " + str(windowsPerSec))
         numSamples = int(samplesPerMinute * time / 60.0)
         print("Number of samples: " + str(numSamples))
@@ -111,7 +111,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     return np.stack(X_train), np.stack(y_train), np.stack(X_validate), np.stack(y_validate), np.stack(X_test), np.stack(y_test)
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 5.0, 60)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 60)
 print("*" * 30)
 trainModel(X_train, y_train, X_validate,y_validate)
 exit(0)
