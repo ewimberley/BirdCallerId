@@ -1,62 +1,38 @@
 #!/usr/bin/python3
 from birdnetRNN import *
+from birdnetSignalProcessing import *
 
 import sys
-from scipy.io.wavfile import read
 import numpy as np
 import pandas as pd
-import scipy.signal as signal
-import gc
 
-import matplotlib.colors as colors
-import matplotlib.pyplot as plt
+def computeSpeciesSamplingRatio(df, datasetName):
+    speciesToTime = {}
+    speciesSamplingRatio = {}
+    for index, row in df.iterrows():
+        dataset = row['dataset']
+        if dataset == datasetName:
+            dataFile = str(row['id']) + ".wav"
+            freq, data = wavFileToNpy("Data\\" + dataFile)
+            time = len(data) / freq
+            speciesId = str(row['speciesId'])
+            if speciesId not in speciesToTime:
+                speciesToTime[speciesId] = time
+            else:
+                speciesToTime[speciesId] = speciesToTime[speciesId] + time
+    minSpeciesTime = speciesToTime["0"]
+    for speciesId in speciesToTime:
+        if speciesToTime[speciesId] < minSpeciesTime:
+            minSpeciesTime = speciesToTime[speciesId]
+    for speciesId in speciesToTime:
+        speciesSamplingRatio[speciesId] = minSpeciesTime / speciesToTime[speciesId]
+    return speciesSamplingRatio
 
-def wavePlot(inputSignal, samplingFreq, samples, maxTime):
-    #t = np.arange(0.0, maxTime, samplingFreq)
-    t = np.linspace(0, len(inputSignal)-1, num=samples, dtype=np.int64)
-    fig, ax = plt.subplots()
-    times = t / samplingFreq
-    ax.plot(times, inputSignal[t])
-    ax.set(xlabel='time (s)', ylabel='magnitude',
-           title='Waveform')
-    ax.grid()
-    fig.savefig("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\test2.png")
-    #plt.show()
-
-def plotSTFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=256, figsize=(9,5), cmap='magma', ylim_max=None):
-    f, t, Zxx = signal.stft(inputSignal, samplingFreq, nfft=nfft, window=window, nperseg=nperseg)
-    fig = plt.figure(figsize=figsize)
-    ### Different methods can be chosen for normalization: PowerNorm; LogNorm; SymLogNorm.
-    ### Reference: https://matplotlib.org/tutorials/colors/colormapnorms.html
-    spec = plt.pcolormesh(t, f, np.abs(Zxx),
-                          norm=colors.PowerNorm(gamma=1./8.),
-                          #norm=colors.LogNorm(vmin=np.abs(Zxx).min(), vmax=np.abs(Zxx).max()),
-                          #norm=colors.SymLogNorm(linthresh=0.13, linscale=1, vmin=-1.0, vmax=1.0),
-                          cmap=plt.get_cmap(cmap))
-    cbar = plt.colorbar(spec)
-    ##Plot adjustments
-    plt.title('STFT Spectrogram')
-    ax = fig.axes[0]
-    ax.grid(True)
-    ax.set_title('STFT Magnitude')
-    if ylim_max:
-        ax.set_ylim(0,ylim_max)
-    ax.set_ylabel('Frequency [Hz]')
-    ax.set_xlabel('Time [sec]')
-    fig.show()
-    #plt.show()
-    plt.savefig('C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\test.png')
-    return
-
-def STFT(inputSignal, samplingFreq, window='hann', nperseg=512, nfft=1024):
-    f, t, Zxx = signal.stft(inputSignal, samplingFreq, nfft=nfft, window=window, nperseg=nperseg)
-    return f, t, np.abs(Zxx)
-
-def wavFileToNpy(filename):
-    wav = read(filename)
-    wavNp = np.array(wav[1],dtype=float)
-    #np.save(sys.argv[2], wavNp)
-    return wav[0], wavNp
+def shuffleDataAndLabels(x, y):
+    rng_state = np.random.get_state()
+    np.random.shuffle(x)
+    np.random.set_state(rng_state)
+    np.random.shuffle(y)
 
 def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     df = pd.read_csv(dataFile, sep="\t")
@@ -68,6 +44,14 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     X_test = []
     y_test = []
     print("File\tSpecies\tSpeciesId\tSampling Freq (Hz)\tLength (Secs)")
+    #Get an even number of samples per species
+    speciesSamplingRatio = {}
+    speciesSamplingRatio["train"] = computeSpeciesSamplingRatio(df, "train")
+    speciesSamplingRatio["validate"] = computeSpeciesSamplingRatio(df, "validate")
+    speciesSamplingRatio["test"] = computeSpeciesSamplingRatio(df, "test")
+
+    #process the samples
+    samplesPerSpecies = {}
     for index, row in df.iterrows():
         dataFile = str(row['id']) + ".wav"
         species = str(row['species'])
@@ -79,6 +63,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         seconds = (str(int(time)) + " Seconds")
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         f, t, x = STFT(data, freq)
+        x = np.log10(x + 0.000001) #noise filter
         x = np.transpose(x)
         numWindows = len(x)
         print("Number of windows: " + str(numWindows))
@@ -100,6 +85,15 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         elif dataset == "test":
             xArray = X_test
             yArray = y_test
+        sampleStartIndeces = np.random.choice(sampleStartIndeces, int(speciesSamplingRatio[dataset][speciesId] * len(sampleStartIndeces)), replace=False)
+        if dataset not in samplesPerSpecies:
+            samplesPerSpecies[dataset] = {}
+            samplesPerSpecies[dataset][speciesId] = len(sampleStartIndeces)
+        else:
+            if speciesId not in samplesPerSpecies[dataset]:
+                samplesPerSpecies[dataset][speciesId] = len(sampleStartIndeces)
+            else:
+                samplesPerSpecies[dataset][speciesId] = samplesPerSpecies[dataset][speciesId] + len(sampleStartIndeces)
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
@@ -107,8 +101,13 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
             xArray.append(sample)
             yArray.append(speciesId)
         #print(x)
-        #if dataset == "train":
+    print("Training samples: " + str(samplesPerSpecies["train"]))
+    print("Validation samples: " + str(samplesPerSpecies["validate"]))
+    print("Testing samples: " + str(samplesPerSpecies["test"]))
 
+    shuffleDataAndLabels(X_train, y_train)
+    shuffleDataAndLabels(X_validate, y_validate)
+    shuffleDataAndLabels(X_test, y_test)
     return np.stack(X_train), np.stack(y_train), np.stack(X_validate), np.stack(y_validate), np.stack(X_test), np.stack(y_test)
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 

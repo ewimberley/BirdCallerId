@@ -1,7 +1,17 @@
 #!/usr/bin/python3
 import numpy as np
 
+#from keras import backend as K
+#K.tensorflow_backend._get_available_gpus()
+
+#from tensorflow.python.client import device_lib
+#print(device_lib.list_local_devices())
+
+import tensorflow as tf
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+
 from keras import layers
+from keras import optimizers
 from keras.models import Sequential
 from keras.layers import recurrent
 from keras.models import Model
@@ -12,8 +22,8 @@ from keras.utils.np_utils import to_categorical
 RNN = layers.LSTM
 EPOCS = 5
 HIDDEN_SIZE = 128
-BATCH_SIZE = 128
-LAYERS = 4
+BATCH_SIZE = 32
+LAYERS = 5
 
 def trainModel(X_train, y_train, X_test, y_test):
     print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
@@ -28,13 +38,14 @@ def trainModel(X_train, y_train, X_test, y_test):
     print("Samples: " + str(numSamples) + "\nWindows: " + str(numWindows) + "\nFrequency windows: " + str(numFreqs))
     model = Sequential()
     HIDDEN_SIZE = numFreqs
-    model.add(layers.GaussianDropout(0.1))
+    model.add(layers.GaussianDropout(0.15))
     for _ in range(LAYERS-1):
-        model.add(RNN(HIDDEN_SIZE, return_sequences=True))
-    model.add(RNN(HIDDEN_SIZE))
-    #model.add(layers.Dense(HIDDEN_SIZE, activation='sigmoid'))
+        model.add(RNN(HIDDEN_SIZE, activation="tanh", return_sequences=True))
+    model.add(RNN(HIDDEN_SIZE, activation="tanh"))
     model.add(layers.Dense(numClasses, activation='sigmoid'))
     #model.add(layers.TimeDistributed(layers.Dense(len(X_train), activation='softmax')))
+    #adam = optimizers.Adam(lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+    #model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     print("Training")
     model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=EPOCS, batch_size=64)
