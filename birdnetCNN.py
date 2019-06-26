@@ -18,12 +18,14 @@ from keras.models import Model
 from sklearn.metrics import confusion_matrix
 from keras.utils.np_utils import to_categorical
 
-# Try replacing GRU, or SimpleRNN.
-RNN = layers.LSTM
 EPOCS = 8
 HIDDEN_SIZE = 128
-BATCH_SIZE = 128
+BATCH_SIZE = 32
 LAYERS = 5
+
+def addChannelShape(x):
+    #return np.reshape(x, (x.shape[0], 1, x.shape[1], x.shape[2]))
+    return np.reshape(x, (x.shape[0], x.shape[1], x.shape[2], 1))
 
 def trainModel(X_train, y_train, X_test, y_test):
     print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
@@ -36,17 +38,20 @@ def trainModel(X_train, y_train, X_test, y_test):
     y_test = to_categorical(y_test)
     print(y_test)
     print("Samples: " + str(numSamples) + "\nWindows: " + str(numWindows) + "\nFrequency windows: " + str(numFreqs))
+    X_train = addChannelShape(X_train)
+    X_test = addChannelShape(X_test)
     model = Sequential()
     HIDDEN_SIZE = numFreqs
-    model.add(layers.GaussianDropout(0.10))
-    model.add(layers.GaussianNoise(0.05))
-    for _ in range(LAYERS-1):
-        model.add(RNN(HIDDEN_SIZE, activation="tanh", return_sequences=True))
-    model.add(RNN(HIDDEN_SIZE, activation="tanh"))
-    model.add(layers.Dense(numClasses, activation='sigmoid'))
-    #model.add(layers.TimeDistributed(layers.Dense(len(X_train), activation='softmax')))
-    adam = optimizers.Adam(lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-    model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
+    #model.add(layers.GaussianDropout(0.10))
+    model.add(layers.GaussianNoise(0.10))
+    model.add(layers.Conv2D(64, kernel_size=(5, 5), strides=(2, 2), activation='relu', input_shape=(X_train.shape[1],X_train.shape[2],1)))#, data_format="channels_last"))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+    model.add(layers.Flatten())
+    model.add(layers.Dense(1000, activation='relu'))
+    model.add(layers.Dense(numClasses, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer=optimizers.SGD(lr=0.01), metrics=['accuracy'])
     #model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     print("Training")
     model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=EPOCS, batch_size=64)

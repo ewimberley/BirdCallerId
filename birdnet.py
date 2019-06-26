@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-from birdnetRNN import *
+#from birdnetRNN import *
+from birdnetCNN import *
 from birdnetSignalProcessing import *
 
 import sys
@@ -111,7 +112,8 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     return np.stack(X_train), np.stack(y_train), np.stack(X_validate), np.stack(y_validate), np.stack(X_test), np.stack(y_test)
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 80)
+#X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 5.0, 400)
 print("*" * 30)
 trainModel(X_train, y_train, X_validate,y_validate)
 exit(0)
