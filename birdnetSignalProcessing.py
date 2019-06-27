@@ -26,7 +26,8 @@ def plotSTFT(f, t, Zxx, fileName, figsize=(9,5), cmap='magma', ylim_max=None):
     fig = plt.figure(figsize=figsize)
     ### Different methods can be chosen for normalization: PowerNorm; LogNorm; SymLogNorm.
     ### Reference: https://matplotlib.org/tutorials/colors/colormapnorms.html
-    spec = plt.pcolormesh(t, f, np.abs(Zxx),
+    #spec = plt.pcolormesh(t, f, np.abs(Zxx),
+    spec = plt.pcolormesh(t, f, Zxx,
                           #norm=colors.PowerNorm(gamma=1./16.),
                           #norm=colors.LogNorm(vmin=np.abs(Zxx).min(), vmax=np.abs(Zxx).max()),
                           #norm=colors.SymLogNorm(linthresh=0.13, linscale=1, vmin=-1.0, vmax=1.0),

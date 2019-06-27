@@ -6,6 +6,7 @@ from birdnetSignalProcessing import *
 import sys
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
 def computeSpeciesSamplingRatio(df, datasetName):
     speciesToTime = {}
@@ -95,6 +96,9 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
                 samplesPerSpecies[dataset][speciesId] = len(sampleStartIndeces)
             else:
                 samplesPerSpecies[dataset][speciesId] = samplesPerSpecies[dataset][speciesId] + len(sampleStartIndeces)
+        #normalize input?
+        max = np.amax(x)
+        x = x / max
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
@@ -113,7 +117,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 5.0, 400)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 100)
 print("*" * 30)
 trainModel(X_train, y_train, X_validate,y_validate)
 exit(0)

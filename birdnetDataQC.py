@@ -4,6 +4,55 @@ from birdnetSignalProcessing import *
 import sys
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+def testNormalization(dataFile, sampleLenSeconds):
+    df = pd.read_csv(dataFile, sep="\t")
+    for index, row in df.iterrows():
+        dataFile = str(row['id']) + ".wav"
+        species = str(row['species'])
+        speciesId = str(row['speciesId'])
+        dataset = row['dataset']
+        freq, data = wavFileToNpy("Data\\" + dataFile)
+        samplingFreq = str(freq) + " Hz"
+        time = len(data) / freq
+        seconds = (str(int(time)) + " Seconds")
+        print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
+        f, t, x = STFT(data, freq)
+        x = np.transpose(x)
+        numWindows = len(x)
+        print("Number of windows: " + str(numWindows))
+        windowsPerSec = int(numWindows / time) #this is not right?
+        print("Windows per second: " + str(windowsPerSec))
+        windowsPerSample = int(sampleLenSeconds * windowsPerSec)
+        print("Windows per sample: " + str(windowsPerSample))
+        #x = np.log10(x+0.000001)
+        startIndex = 100
+        x = x[startIndex:startIndex+windowsPerSample,]
+        t = t[startIndex:startIndex+windowsPerSample]
+        x = np.transpose(x)
+        #scaler = MinMaxScaler()
+        #scaler.fit(x)
+        #x = scaler.transform(x)
+        max = np.amax(x)
+        x = x / max
+        plotSTFT(f, t, x, "test\\" + str(row['id']) + "test.png", ylim_max=20000)
+
+def computeSpeciesTime(dataFile, datasetName):
+    df = pd.read_csv(dataFile, sep="\t")
+    speciesToTime = {}
+    for index, row in df.iterrows():
+        dataset = row['dataset']
+        if dataset == datasetName:
+            dataFile = str(row['id']) + ".wav"
+            freq, data = wavFileToNpy("Data\\" + dataFile)
+            time = len(data) / freq
+            speciesId = str(row['speciesId'])
+            if speciesId not in speciesToTime:
+                speciesToTime[speciesId] = time
+            else:
+                speciesToTime[speciesId] = speciesToTime[speciesId] + time
+    return speciesToTime
 
 def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     df = pd.read_csv(dataFile, sep="\t")
@@ -54,14 +103,27 @@ def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
             sample = x[startIndex:endIndex,]
             sampleT = t[startIndex:endIndex]
             plotSTFT(f, sampleT, np.transpose(sample), "QC\\Samples\\"+str(row['id'])+"-"+str(startIndex)+".png",ylim_max=20000)
-            exit(0)
             #print(sample.shape)
             xArray.append(sample)
             yArray.append(speciesId)
         #print(x)
         #if dataset == "train":
 
-plotDataset("data.csv", 5.0, 80)
+#plotDataset("data.csv", 5.0, 80)
+trainingTimes = computeSpeciesTime("data.csv", "train")
+print("Training times:")
+print(trainingTimes)
+
+validationTimes = computeSpeciesTime("data.csv", "validate")
+print("Validation times:")
+print(validationTimes)
+
+testTimes = computeSpeciesTime("data.csv", "test")
+print("Testing time:")
+print(testTimes)
+
+testNormalization("data.csv", 5.0)
+
 exit(0)
 
 #Below is for debugging purposes
