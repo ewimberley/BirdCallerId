@@ -20,7 +20,7 @@ id	species	speciesId	dataset
 26545071	Chuck-will's-widow	1	train
 164662831	Chuck-will's-widow	1	validate
 135598141	Chuck-will's-widow	1	validate
-148639491	Chuck-will's-widow	1	validate
+26545071	Chuck-will's-widow	1	validate
 159848811	Chuck-will's-widow	1	test
 164662851	Chuck-will's-widow	1	test
 164553531	Brown-headed Nuthatch	2	train
@@ -30,20 +30,26 @@ id	species	speciesId	dataset
 72500361	Brown-headed Nuthatch	2	train
 75381031	Brown-headed Nuthatch	2	train
 66382381	Brown-headed Nuthatch	2	train
+107156091	Brown-headed Nuthatch	2	train
 164553561	Brown-headed Nuthatch	2	validate
 23337661	Brown-headed Nuthatch	2	validate
 92752291	Brown-headed Nuthatch	2	validate
-90561681	Brown-headed Nuthatch	2	test
+90561681	Brown-headed Nuthatch	2	validate
+21785461	Brown-headed Nuthatch	2	validate
 102749701	Brown-headed Nuthatch	2	test
+71031561	Brown-headed Nuthatch	2	test
+71031571	Brown-headed Nuthatch	2	test
 164564611	Red-eyed Vireo	3	train
 163579621	Red-eyed Vireo	3	train
 157715461	Red-eyed Vireo	3	train
 157714641	Red-eyed Vireo	3	train
-71031561	Red-eyed Vireo	3	train
+156805921	Red-eyed Vireo	3	train
 164288681	Red-eyed Vireo	3	validate
 158243071	Red-eyed Vireo	3	validate
 151709941	Red-eyed Vireo	3	validate
 163782961	Red-eyed Vireo	3	test
+157715441	Red-eyed Vireo	3	test
+153927701	Red-eyed Vireo	3	test
 163224861	Eastern Whip-poor-will	4	train
 159073831	Eastern Whip-poor-will	4	train
 108922211	Eastern Whip-poor-will	4	train
@@ -53,6 +59,7 @@ id	species	speciesId	dataset
 53984671	Eastern Whip-poor-will	4	validate
 106700421	Eastern Whip-poor-will	4	validate
 26291281	Eastern Whip-poor-will	4	validate
+148639491	Eastern Whip-poor-will	4	validate
 160185091	Eastern Whip-poor-will	4	test
 26631491	Eastern Whip-poor-will	4	test
 54101741	Eastern Whip-poor-will	4	test
@@ -62,9 +69,12 @@ id	species	speciesId	dataset
 164412221	Carolina Chickadee	5	train
 162297831	Carolina Chickadee	5	train
 160426871	Carolina Chickadee	5	train
+150852461	Carolina Chickadee	5	train
 162104151	Carolina Chickadee	5	validate
 161924931	Carolina Chickadee	5	validate
 160425781	Carolina Chickadee	5	validate
 159377401	Carolina Chickadee	5	validate
+155602491	Carolina Chickadee	5	validate
 160443521	Carolina Chickadee	5	test
 160443181	Carolina Chickadee	5	test
+151700071	Carolina Chickadee	5	test

@@ -6,8 +6,9 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-def testNormalization(dataFile, sampleLenSeconds):
+def wavePlotDataset(dataFile, sampleLenSeconds, numSamples):
     df = pd.read_csv(dataFile, sep="\t")
+    print("File\tSpecies\tSpeciesId\tSampling Freq (Hz)\tLength (Secs)")
     for index, row in df.iterrows():
         dataFile = str(row['id']) + ".wav"
         species = str(row['species'])
@@ -18,25 +19,10 @@ def testNormalization(dataFile, sampleLenSeconds):
         time = len(data) / freq
         seconds = (str(int(time)) + " Seconds")
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
-        f, t, x = STFT(data, freq)
-        x = np.transpose(x)
-        numWindows = len(x)
-        print("Number of windows: " + str(numWindows))
-        windowsPerSec = int(numWindows / time) #this is not right?
-        print("Windows per second: " + str(windowsPerSec))
-        windowsPerSample = int(sampleLenSeconds * windowsPerSec)
-        print("Windows per sample: " + str(windowsPerSample))
-        #x = np.log10(x+0.000001)
-        startIndex = 100
-        x = x[startIndex:startIndex+windowsPerSample,]
-        t = t[startIndex:startIndex+windowsPerSample]
-        x = np.transpose(x)
-        #scaler = MinMaxScaler()
-        #scaler.fit(x)
-        #x = scaler.transform(x)
-        max = np.amax(x)
-        x = x / max
-        plotSTFT(f, t, x, "test\\" + str(row['id']) + "test.png", ylim_max=20000)
+        sampleStartIndeces = np.linspace(0, len(data) - sampleLenSeconds*freq, num=numSamples, dtype=np.int32)
+        for startIndex in sampleStartIndeces:
+            sample = data[startIndex:int(startIndex+sampleLenSeconds*freq)]
+            wavePlot(sample, freq, freq*sampleLenSeconds/10, "QC\\wave\\" + str(row['id']) + "-" + str(startIndex) + ".png")
 
 def computeSpeciesTime(dataFile, datasetName):
     df = pd.read_csv(dataFile, sep="\t")
@@ -76,6 +62,8 @@ def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         f, t, x = STFT(data, freq)
         x = np.log10(x+0.000001)
+        max = np.amax(x)
+        x = x / max
         plotSTFT(f, t, x, "QC\\"+str(row['id'])+".png",ylim_max=20000)
         x = np.transpose(x)
         numWindows = len(x)
@@ -109,7 +97,6 @@ def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         #print(x)
         #if dataset == "train":
 
-#plotDataset("data.csv", 5.0, 80)
 trainingTimes = computeSpeciesTime("data.csv", "train")
 print("Training times:")
 print(trainingTimes)
@@ -122,7 +109,8 @@ testTimes = computeSpeciesTime("data.csv", "test")
 print("Testing time:")
 print(testTimes)
 
-testNormalization("data.csv", 5.0)
+#plotDataset("data.csv", 10.0, 20)
+#wavePlotDataset("data.csv", 1.0, 20)
 
 exit(0)
 

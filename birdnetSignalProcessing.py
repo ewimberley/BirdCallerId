@@ -10,8 +10,7 @@ import gc
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 
-def wavePlot(inputSignal, samplingFreq, samples, maxTime):
-    #t = np.arange(0.0, maxTime, samplingFreq)
+def wavePlot(inputSignal, samplingFreq, samples, fileName):
     t = np.linspace(0, len(inputSignal)-1, num=samples, dtype=np.int64)
     fig, ax = plt.subplots()
     times = t / samplingFreq
@@ -19,7 +18,8 @@ def wavePlot(inputSignal, samplingFreq, samples, maxTime):
     ax.set(xlabel='time (s)', ylabel='magnitude',
            title='Waveform')
     ax.grid()
-    fig.savefig("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\test2.png")
+    fig.savefig(fileName)
+    plt.close(fig)
     #plt.show()
 
 def plotSTFT(f, t, Zxx, fileName, figsize=(9,5), cmap='magma', ylim_max=None):
