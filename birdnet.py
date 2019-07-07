@@ -66,6 +66,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         f, t, x = STFT(data, freq)
         x = np.log10(x + 0.000001) #noise filter
+        x = customNormalization(x)
         x = np.transpose(x)
         numWindows = len(x)
         print("Number of windows: " + str(numWindows))
@@ -77,6 +78,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         print("Windows per sample: " + str(windowsPerSample))
         #print(x.shape)
         #print(x)
+        #FIXME cut off first and last 10% of sound?
         sampleStartIndeces = np.linspace(0, numWindows - windowsPerSample, num=numSamples, dtype=np.int32)
         #print(sampleStartIndeces)
         xArray = X_train
@@ -117,7 +119,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 125)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 175)
 print("*" * 30)
 trainModel(X_train, y_train, X_validate,y_validate)
 exit(0)
