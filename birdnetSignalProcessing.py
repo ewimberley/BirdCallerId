@@ -10,6 +10,28 @@ import gc
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 
+def customNormalization(x):
+    mean = np.mean(x, axis=1)
+    std = np.std(x, axis=1)
+    x = np.transpose(x)
+    x = (x - mean) / std
+    x = np.transpose(x)
+    #x = x + np.abs(np.min(x))
+    #max = np.amax(x)
+    #x = x / max
+    return x
+
+def maxNormalization(x):
+    return x / np.max(x)
+
+def gaussianNormalization(x):
+    #x = (x - np.mean(x)) / np.std(x) #this one is across all frequencies, not within each frequency
+    mean = np.mean(x, axis=1)
+    std = np.std(x, axis=1)
+    x = np.transpose(x)
+    x = (x-mean) / std
+    return np.transpose(x)
+
 def wavePlot(inputSignal, samplingFreq, samples, fileName):
     t = np.linspace(0, len(inputSignal)-1, num=samples, dtype=np.int64)
     fig, ax = plt.subplots()
@@ -49,7 +71,9 @@ def plotSTFT(f, t, Zxx, fileName, figsize=(9,5), cmap='magma', ylim_max=None):
     return
 
 #def STFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=1024):
-def STFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=512):
+#def STFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=512):
+#def STFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=256):
+def STFT(inputSignal, samplingFreq, window='hann', nperseg=256, nfft=320):
     f, t, Zxx = signal.stft(inputSignal, samplingFreq, nfft=nfft, window=window, nperseg=nperseg)
     return f, t, np.abs(Zxx)
 

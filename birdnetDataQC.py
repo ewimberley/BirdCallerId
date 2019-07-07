@@ -22,7 +22,7 @@ def wavePlotDataset(dataFile, sampleLenSeconds, numSamples):
         sampleStartIndeces = np.linspace(0, len(data) - sampleLenSeconds*freq, num=numSamples, dtype=np.int32)
         for startIndex in sampleStartIndeces:
             sample = data[startIndex:int(startIndex+sampleLenSeconds*freq)]
-            wavePlot(sample, freq, freq*sampleLenSeconds/10, "QC\\wave\\" + str(row['id']) + "-" + str(startIndex) + ".png")
+            wavePlot(sample, freq, freq*sampleLenSeconds/10, "QC\\"+str(row['dataset'])+"wave\\" + str(row['id']) + "-" + str(startIndex) + ".png")
 
 def computeSpeciesTime(dataFile, datasetName):
     df = pd.read_csv(dataFile, sep="\t")
@@ -62,9 +62,10 @@ def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         f, t, x = STFT(data, freq)
         x = np.log10(x+0.000001)
-        max = np.amax(x)
-        x = x / max
-        plotSTFT(f, t, x, "QC\\"+str(row['id'])+".png",ylim_max=20000)
+        #x = gaussianNormalization(x)
+        #x = maxNormalization(x)
+        x = customNormalization(x)
+        plotSTFT(f, t, x, "QC\\"+str(row['dataset'])+"\\"+str(row['id'])+".png",ylim_max=20000)
         x = np.transpose(x)
         numWindows = len(x)
         print("Number of windows: " + str(numWindows))
@@ -90,7 +91,8 @@ def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
             sampleT = t[startIndex:endIndex]
-            plotSTFT(f, sampleT, np.transpose(sample), "QC\\Samples\\"+str(row['id'])+"-"+str(startIndex)+".png",ylim_max=20000)
+            plotSTFT(f, sampleT, np.transpose(sample), "QC\\"+str(row['dataset'])+"\\Samples\\"+str(row['id'])+"-"+str(startIndex)+".png",ylim_max=20000)
+
             #print(sample.shape)
             xArray.append(sample)
             yArray.append(speciesId)

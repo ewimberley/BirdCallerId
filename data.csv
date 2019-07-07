@@ -1,6 +1,8 @@
 id	species	speciesId	dataset
 163075671	Northern Cardinal	0	train
 155787431	Northern Cardinal	0	train
+152042871	Northern Cardinal	0	train
+149053181	Northern Cardinal	0	train
 109136131	Northern Cardinal	0	train
 92182651	Northern Cardinal	0	train
 90073921	Northern Cardinal	0	train
@@ -50,31 +52,34 @@ id	species	speciesId	dataset
 163782961	Red-eyed Vireo	3	test
 157715441	Red-eyed Vireo	3	test
 153927701	Red-eyed Vireo	3	test
-163224861	Eastern Whip-poor-will	4	train
-159073831	Eastern Whip-poor-will	4	train
-108922211	Eastern Whip-poor-will	4	train
-105509341	Eastern Whip-poor-will	4	train
-159074681	Eastern Whip-poor-will	4	train
-20231731	Eastern Whip-poor-will	4	train
-53984671	Eastern Whip-poor-will	4	validate
-106700421	Eastern Whip-poor-will	4	validate
-26291281	Eastern Whip-poor-will	4	validate
-148639491	Eastern Whip-poor-will	4	validate
-160185091	Eastern Whip-poor-will	4	test
-26631491	Eastern Whip-poor-will	4	test
-54101741	Eastern Whip-poor-will	4	test
-165874471	Carolina Chickadee	5	train
-164619441	Carolina Chickadee	5	train
-164477151	Carolina Chickadee	5	train
-164412221	Carolina Chickadee	5	train
-162297831	Carolina Chickadee	5	train
-160426871	Carolina Chickadee	5	train
-150852461	Carolina Chickadee	5	train
-162104151	Carolina Chickadee	5	validate
-161924931	Carolina Chickadee	5	validate
-160425781	Carolina Chickadee	5	validate
-159377401	Carolina Chickadee	5	validate
-155602491	Carolina Chickadee	5	validate
-160443521	Carolina Chickadee	5	test
-160443181	Carolina Chickadee	5	test
-151700071	Carolina Chickadee	5	test
+165874471	Carolina Chickadee	4	train
+150535981	Carolina Chickadee	4	train
+164619441	Carolina Chickadee	4	train
+164477151	Carolina Chickadee	4	train
+164412221	Carolina Chickadee	4	train
+162297831	Carolina Chickadee	4	train
+160426871	Carolina Chickadee	4	train
+150852461	Carolina Chickadee	4	train
+162104151	Carolina Chickadee	4	validate
+161924931	Carolina Chickadee	4	validate
+160425781	Carolina Chickadee	4	validate
+159377401	Carolina Chickadee	4	validate
+155602491	Carolina Chickadee	4	validate
+160443521	Carolina Chickadee	4	test
+160443181	Carolina Chickadee	4	test
+151700071	Carolina Chickadee	4	test
+165451891	Great Crested Flycatcher	5	train
+165199391	Great Crested Flycatcher	5	train
+165190981	Great Crested Flycatcher	5	train
+160954881	Great Crested Flycatcher	5	train
+161270751	Great Crested Flycatcher	5	train
+162555501	Great Crested Flycatcher	5	train
+160955101	Great Crested Flycatcher	5	train
+164066161	Great Crested Flycatcher	5	validate
+163941261	Great Crested Flycatcher	5	validate
+163924171	Great Crested Flycatcher	5	validate
+164833221	Great Crested Flycatcher	5	validate
+165079331	Great Crested Flycatcher	5	test
+164283911	Great Crested Flycatcher	5	test
+163506831	Great Crested Flycatcher	5	test
+163505141	Great Crested Flycatcher	5	test

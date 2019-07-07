@@ -1,0 +1,67 @@
+id	species	speciesId	dataset
+check-point-1	Background	0	train
+river-1	Background	0	train
+rain-5	Background	0	train
+check-point-1	Background	0	train
+kids-playing-1	Background	0	train
+food-court-1	Background	0	validate
+rain-5	Background	0	validate
+people-in-lounge-1	Background	0	test
+163829561	Chuck-will's-widow	1	train
+162653591	Chuck-will's-widow	1	train
+154282101	Chuck-will's-widow	1	train
+159074681	Chuck-will's-widow	1	train
+26545071	Chuck-will's-widow	1	train
+164662831	Chuck-will's-widow	1	validate
+135598141	Chuck-will's-widow	1	validate
+148639491	Chuck-will's-widow	1	validate
+159848811	Chuck-will's-widow	1	test
+164662851	Chuck-will's-widow	1	test
+164553531	Brown-headed Nuthatch	2	train
+109944521	Brown-headed Nuthatch	2	train
+108922041	Brown-headed Nuthatch	2	train
+92752791	Brown-headed Nuthatch	2	train
+72500361	Brown-headed Nuthatch	2	train
+75381031	Brown-headed Nuthatch	2	train
+66382381	Brown-headed Nuthatch	2	train
+164553561	Brown-headed Nuthatch	2	validate
+23337661	Brown-headed Nuthatch	2	validate
+92752291	Brown-headed Nuthatch	2	validate
+90561681	Brown-headed Nuthatch	2	test
+102749701	Brown-headed Nuthatch	2	test
+164564611	Red-eyed Vireo	3	train
+163579621	Red-eyed Vireo	3	train
+157715461	Red-eyed Vireo	3	train
+157714641	Red-eyed Vireo	3	train
+71031561	Red-eyed Vireo	3	train
+164288681	Red-eyed Vireo	3	validate
+158243071	Red-eyed Vireo	3	validate
+151709941	Red-eyed Vireo	3	validate
+163782961	Red-eyed Vireo	3	test
+163224861	Eastern Whip-poor-will	4	train
+159073831	Eastern Whip-poor-will	4	train
+108922211	Eastern Whip-poor-will	4	train
+105509341	Eastern Whip-poor-will	4	train
+159074681	Eastern Whip-poor-will	4	train
+20231731	Eastern Whip-poor-will	4	train
+164096731	Eastern Whip-poor-will	4	validate
+53984671	Eastern Whip-poor-will	4	validate
+106700421	Eastern Whip-poor-will	4	validate
+26291281	Eastern Whip-poor-will	4	validate
+160185091	Eastern Whip-poor-will	4	test
+26631491	Eastern Whip-poor-will	4	test
+54101741	Eastern Whip-poor-will	4	test
+163075671	Northern Cardinal	5	train
+155787431	Northern Cardinal	5	train
+109136131	Northern Cardinal	5	train
+92182651	Northern Cardinal	5	train
+90073921	Northern Cardinal	5	train
+50063421	Northern Cardinal	5	train
+54065021	Northern Cardinal	5	train
+162928951	Northern Cardinal	5	validate
+92373921	Northern Cardinal	5	validate
+74976581	Northern Cardinal	5	validate
+142821331	Northern Cardinal	5	validate
+146684121	Northern Cardinal	5	test
+142820981	Northern Cardinal	5	test
+163468861	Northern Cardinal	5	test
