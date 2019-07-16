@@ -119,7 +119,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 175)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 225)
 print("*" * 30)
 trainModel(X_train, y_train, X_validate,y_validate)
 exit(0)
