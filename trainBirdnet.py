@@ -8,6 +8,26 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
+PATH_SEPARATOR = "/"
+
+X_train = []
+y_train = []
+X_validate = []
+y_validate = []
+X_test = []
+y_test = []
+
+def getDatasetArrays(dataset):
+    xArray = X_train
+    yArray = y_train
+    if dataset == "validate":
+        xArray = X_validate
+        yArray = y_validate
+    elif dataset == "test":
+        xArray = X_test
+        yArray = y_test
+    return xArray, yArray
+
 def computeSpeciesSamplingRatio(df, datasetName):
     speciesToTime = {}
     speciesSamplingRatio = {}
@@ -15,7 +35,7 @@ def computeSpeciesSamplingRatio(df, datasetName):
         dataset = row['dataset']
         if dataset == datasetName:
             dataFile = str(row['id']) + ".wav"
-            freq, data = wavFileToNpy("Data\\" + dataFile)
+            freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
             time = len(data) / freq
             speciesId = str(row['speciesId'])
             if speciesId not in speciesToTime:
@@ -36,15 +56,34 @@ def shuffleDataAndLabels(x, y):
     np.random.set_state(rng_state)
     np.random.shuffle(y)
 
+def loadFilterNormalize(dataFile):
+    freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
+    time = len(data) / freq
+    f, t, x = STFT(data, freq)
+    x = np.log10(x + 0.000001)  # noise filter
+    x = customNormalization(x)
+    x = np.transpose(x)
+    return freq, time, f, t, x
+
+def sampleWindows(sampleLenSeconds, samplesPerMinute, time, x):
+    numWindows = len(x)
+    print("Number of windows: " + str(numWindows))
+    windowsPerSec = int(numWindows / time)  # this is not right?
+    print("Windows per second: " + str(windowsPerSec))
+    numSamples = int(samplesPerMinute * time / 60.0)
+    print("Number of samples: " + str(numSamples))
+    windowsPerSample = int(sampleLenSeconds * windowsPerSec)
+    print("Windows per sample: " + str(windowsPerSample))
+    # print(x.shape)
+    # print(x)
+    # FIXME cut off first and last 10% of sound?
+    sampleStartIndeces = np.linspace(0, numWindows - windowsPerSample, num=numSamples, dtype=np.int32)
+    # print(sampleStartIndeces)
+    return sampleStartIndeces, windowsPerSample
+
 def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     df = pd.read_csv(dataFile, sep="\t")
     #print(df.head())
-    X_train = []
-    y_train = []
-    X_validate = []
-    y_validate = []
-    X_test = []
-    y_test = []
     print("File\tSpecies\tSpeciesId\tSampling Freq (Hz)\tLength (Secs)")
     #Get an even number of samples per species
     speciesSamplingRatio = {}
@@ -59,36 +98,12 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         species = str(row['species'])
         speciesId = str(row['speciesId'])
         dataset = row['dataset']
-        freq, data = wavFileToNpy("Data\\" + dataFile)
-        samplingFreq = str(freq) + " Hz"
-        time = len(data) / freq
+        freq, time, f, t, x = loadFilterNormalize(dataFile)
         seconds = (str(int(time)) + " Seconds")
+        samplingFreq = str(freq) + " Hz"
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
-        f, t, x = STFT(data, freq)
-        x = np.log10(x + 0.000001) #noise filter
-        x = customNormalization(x)
-        x = np.transpose(x)
-        numWindows = len(x)
-        print("Number of windows: " + str(numWindows))
-        windowsPerSec = int(numWindows / time) #this is not right?
-        print("Windows per second: " + str(windowsPerSec))
-        numSamples = int(samplesPerMinute * time / 60.0)
-        print("Number of samples: " + str(numSamples))
-        windowsPerSample = int(sampleLenSeconds * windowsPerSec)
-        print("Windows per sample: " + str(windowsPerSample))
-        #print(x.shape)
-        #print(x)
-        #FIXME cut off first and last 10% of sound?
-        sampleStartIndeces = np.linspace(0, numWindows - windowsPerSample, num=numSamples, dtype=np.int32)
-        #print(sampleStartIndeces)
-        xArray = X_train
-        yArray = y_train
-        if dataset == "validate":
-            xArray = X_validate
-            yArray = y_validate
-        elif dataset == "test":
-            xArray = X_test
-            yArray = y_test
+        sampleStartIndeces, windowsPerSample = sampleWindows(sampleLenSeconds, samplesPerMinute, time, x)
+        xArray, yArray = getDatasetArrays(dataset)
         sampleStartIndeces = np.random.choice(sampleStartIndeces, int(speciesSamplingRatio[dataset][speciesId] * len(sampleStartIndeces)), replace=False)
         if dataset not in samplesPerSpecies:
             samplesPerSpecies[dataset] = {}

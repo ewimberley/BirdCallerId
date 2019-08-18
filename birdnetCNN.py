@@ -18,7 +18,7 @@ from keras.models import Model
 from sklearn.metrics import confusion_matrix
 from keras.utils.np_utils import to_categorical
 
-EPOCS = 8
+EPOCS = 6
 HIDDEN_SIZE = 128
 BATCH_SIZE = 32
 LAYERS = 5
