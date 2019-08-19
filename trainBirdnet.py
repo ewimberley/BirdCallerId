@@ -8,8 +8,6 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-PATH_SEPARATOR = "/"
-
 X_train = []
 y_train = []
 X_validate = []
@@ -56,31 +54,6 @@ def shuffleDataAndLabels(x, y):
     np.random.set_state(rng_state)
     np.random.shuffle(y)
 
-def loadFilterNormalize(dataFile):
-    freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
-    time = len(data) / freq
-    f, t, x = STFT(data, freq)
-    x = np.log10(x + 0.000001)  # noise filter
-    x = customNormalization(x)
-    x = np.transpose(x)
-    return freq, time, f, t, x
-
-def sampleWindows(sampleLenSeconds, samplesPerMinute, time, x):
-    numWindows = len(x)
-    print("Number of windows: " + str(numWindows))
-    windowsPerSec = int(numWindows / time)  # this is not right?
-    print("Windows per second: " + str(windowsPerSec))
-    numSamples = int(samplesPerMinute * time / 60.0)
-    print("Number of samples: " + str(numSamples))
-    windowsPerSample = int(sampleLenSeconds * windowsPerSec)
-    print("Windows per sample: " + str(windowsPerSample))
-    # print(x.shape)
-    # print(x)
-    # FIXME cut off first and last 10% of sound?
-    sampleStartIndeces = np.linspace(0, numWindows - windowsPerSample, num=numSamples, dtype=np.int32)
-    # print(sampleStartIndeces)
-    return sampleStartIndeces, windowsPerSample
-
 def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     df = pd.read_csv(dataFile, sep="\t")
     #print(df.head())
@@ -113,9 +86,6 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
                 samplesPerSpecies[dataset][speciesId] = len(sampleStartIndeces)
             else:
                 samplesPerSpecies[dataset][speciesId] = samplesPerSpecies[dataset][speciesId] + len(sampleStartIndeces)
-        #normalize input?
-        max = np.amax(x)
-        x = x / max
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
@@ -136,20 +106,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
 X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 225)
 print("*" * 30)
-trainModel(X_train, y_train, X_validate,y_validate)
-exit(0)
+model, matrix, acc = trainModel(X_train, y_train, X_validate,y_validate)
 
 #Below is for debugging purposes
-
 #freq, data = wavFileToNpy(sys.argv[1])
-#freq, data = wavFileToNpy("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\163829561.wav")
-#freq, data = wavFileToNpy("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\164662831.wav")
-freq, data = wavFileToNpy("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\164553531.wav")
-
-subsampleSecs = 5.0
-subsampleEnd = int(freq * subsampleSecs)
-data = data[0:subsampleEnd]
-time = len(data) / freq
-print(str(time) + " Seconds")
-wavePlot(data, freq, 2048, time)
-plotSTFT(data, freq, nperseg=128, nfft=1024, ylim_max=20000)

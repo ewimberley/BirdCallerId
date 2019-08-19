@@ -10,27 +10,40 @@ import gc
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 
+PATH_SEPARATOR = "/"
+
+def loadFilterNormalize(dataFile):
+    freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
+    time = len(data) / freq
+    f, t, x = STFT(data, freq)
+    x = np.log10(x + 0.000001)  # noise filter
+    x = customNormalization(x)
+    return freq, time, f, t, x
+
+def sampleWindows(sampleLenSeconds, samplesPerMinute, time, x):
+    numWindows = len(x)
+    print("Number of windows: " + str(numWindows))
+    windowsPerSec = int(numWindows / time)  # this is not right?
+    print("Windows per second: " + str(windowsPerSec))
+    numSamples = int(samplesPerMinute * time / 60.0)
+    print("Number of samples: " + str(numSamples))
+    windowsPerSample = int(sampleLenSeconds * windowsPerSec)
+    print("Windows per sample: " + str(windowsPerSample))
+    # print(x.shape)
+    # print(x)
+    # FIXME cut off first and last 10% of sound?
+    sampleStartIndeces = np.linspace(0, numWindows - windowsPerSample, num=numSamples, dtype=np.int32)
+    # print(sampleStartIndeces)
+    return sampleStartIndeces, windowsPerSample
+
 def customNormalization(x):
     mean = np.mean(x, axis=1)
     std = np.std(x, axis=1)
     x = np.transpose(x)
     x = (x - mean) / std
-    x = np.transpose(x)
-    #x = x + np.abs(np.min(x))
     #max = np.amax(x)
     #x = x / max
     return x
-
-def maxNormalization(x):
-    return x / np.max(x)
-
-def gaussianNormalization(x):
-    #x = (x - np.mean(x)) / np.std(x) #this one is across all frequencies, not within each frequency
-    mean = np.mean(x, axis=1)
-    std = np.std(x, axis=1)
-    x = np.transpose(x)
-    x = (x-mean) / std
-    return np.transpose(x)
 
 def wavePlot(inputSignal, samplingFreq, samples, fileName):
     t = np.linspace(0, len(inputSignal)-1, num=samples, dtype=np.int64)

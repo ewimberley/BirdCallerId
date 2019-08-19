@@ -18,7 +18,7 @@ from keras.models import Model
 from sklearn.metrics import confusion_matrix
 from keras.utils.np_utils import to_categorical
 
-EPOCS = 6
+EPOCS = 8
 HIDDEN_SIZE = 128
 BATCH_SIZE = 32
 LAYERS = 5
@@ -44,7 +44,6 @@ def trainModel(X_train, y_train, X_test, y_test):
     HIDDEN_SIZE = numFreqs
     #model.add(layers.GaussianDropout(0.20))
     model.add(layers.GaussianNoise(0.1))
-    #model.add(layers.Conv2D(32, kernel_size=(5, 5), strides=(2, 2), activation='relu', input_shape=(X_train.shape[1],X_train.shape[2],1)))#, data_format="channels_last"))
     model.add(layers.Conv2D(64, kernel_size=(5, 5), strides=(2, 2), activation='relu', input_shape=(X_train.shape[1],X_train.shape[2],1), data_format="channels_last"))
     model.add(layers.Conv2D(64, kernel_size=(5, 5), strides=(2, 2), activation='relu'))
     model.add(layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
@@ -73,3 +72,4 @@ def trainModel(X_train, y_train, X_test, y_test):
     y_pred = model.predict(X_test)
     matrix = confusion_matrix(y_test.argmax(axis=1), y_pred.argmax(axis=1))
     print(matrix)
+    return model, matrix, acc
