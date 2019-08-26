@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-from birdnetSignalProcessing import *
+from BirdCalls.birdnetSignalProcessing import *
 
-import sys
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+
 
 def wavePlotDataset(dataFile, sampleLenSeconds, numSamples):
     df = pd.read_csv(dataFile, sep="\t")

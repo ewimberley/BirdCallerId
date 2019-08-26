@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 #from birdnetRNN import *
-from birdnetCNN import *
-from birdnetSignalProcessing import *
+from BirdCalls.birdnetCNN import *
+from BirdCalls.birdnetSignalProcessing import *
 
-import sys
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
 
 X_train = []
 y_train = []
