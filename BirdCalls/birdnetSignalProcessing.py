@@ -4,7 +4,6 @@ from scipy.io.wavfile import read
 import numpy as np
 import pandas as pd
 import scipy.signal as signal
-from scipy.special import softmax
 import gc
 
 import matplotlib.colors as colors
@@ -13,17 +12,17 @@ import matplotlib.pyplot as plt
 PATH_SEPARATOR = "/"
 
 def loadFilterNormalize(dataFile):
-    freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
-    time = len(data) / freq
+    freq, data = wavFileToNpy("BirdCalls/Data" + PATH_SEPARATOR + dataFile)
+    time = float(len(data)) / float(freq)
     f, t, x = STFT(data, freq)
     x = np.log10(x + 0.000001)  # noise filter
     x = customNormalization(x)
     return freq, time, f, t, x
 
-def sampleWindows(sampleLenSeconds, samplesPerMinute, time, x):
+def sampleWindows(sampleLenSeconds, samplesPerMinute, time, windowsPerSec, x):
     numWindows = len(x)
     print("Number of windows: " + str(numWindows))
-    windowsPerSec = int(numWindows / time)  # this is not right?
+    #windowsPerSec = int(numWindows / time)  # this is not right?
     print("Windows per second: " + str(windowsPerSec))
     numSamples = int(samplesPerMinute * time / 60.0)
     print("Number of samples: " + str(numSamples))

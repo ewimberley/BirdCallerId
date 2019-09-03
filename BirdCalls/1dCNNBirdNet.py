@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 #from birdnetRNN import *
-from BirdCalls.birdnetCNN import *
 from BirdCalls.birdnetSignalProcessing import *
-
+import tensorflow as tf
+from keras.utils.np_utils import to_categorical
+from sklearn.metrics import confusion_matrix
 import numpy as np
 import pandas as pd
 
-from BirdCalls.birdnetSignalProcessing import sampleWindows, loadFilterNormalize
+from BirdCalls.birdnetSignalProcessing import wavFileToNpy, sampleWindows
 
 X_train = []
 y_train = []
@@ -14,6 +15,9 @@ X_validate = []
 y_validate = []
 X_test = []
 y_test = []
+
+def addChannelShape(x):
+    return np.reshape(x, (x.shape[0], x.shape[1], 1))
 
 def getDatasetArrays(dataset):
     xArray = X_train
@@ -33,8 +37,8 @@ def computeSpeciesSamplingRatio(df, datasetName):
         dataset = row['dataset']
         if dataset == datasetName:
             dataFile = str(row['id']) + ".wav"
-            freq, data = wavFileToNpy("BirdCalls/Data" + PATH_SEPARATOR + dataFile)
-            time = float(len(data)) / float(freq)
+            freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
+            time = float(np.shape(data)[0]) / float(freq)
             speciesId = str(row['speciesId'])
             if speciesId not in speciesToTime:
                 speciesToTime[speciesId] = time
@@ -71,12 +75,12 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         species = str(row['species'])
         speciesId = str(row['speciesId'])
         dataset = row['dataset']
-        freq, time, f, t, x = loadFilterNormalize(dataFile)
+        freq, wave = wavFileToNpy("Data/" + dataFile)
+        time = float(np.shape(wave)[0]) / float(freq)
         seconds = (str(int(time)) + " Seconds")
         samplingFreq = str(freq) + " Hz"
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
-        windowsPerSec = int(len(x) / time)
-        allSampleStartIndeces, windowsPerSample = sampleWindows(sampleLenSeconds, samplesPerMinute, time, windowsPerSec, x)
+        allSampleStartIndeces, windowsPerSample = sampleWindows(sampleLenSeconds, samplesPerMinute, time, freq, wave)
         xArray, yArray = getDatasetArrays(dataset)
         sampleStartIndeces = np.random.choice(allSampleStartIndeces, int(speciesSamplingRatio[dataset][speciesId] * len(allSampleStartIndeces)), replace=False)
         if dataset not in samplesPerSpecies:
@@ -89,8 +93,8 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
                 samplesPerSpecies[dataset][speciesId] = samplesPerSpecies[dataset][speciesId] + len(sampleStartIndeces)
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
-            sample = x[startIndex:endIndex,]
-            print(sample.shape)
+            sample = wave[startIndex:endIndex,]
+            #print(np.shape(sample))
             xArray.append(sample)
             yArray.append(speciesId)
         #print(x)
@@ -105,9 +109,39 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("BirdCalls/data.csv", 12.0, 225)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 225)
 print("*" * 30)
-model, matrix, acc = trainModel(X_train, y_train, X_validate,y_validate)
-
-#Below is for debugging purposes
-#freq, data = wavFileToNpy(sys.argv[1])
+#model, matrix, acc = trainModel(X_train, y_train, X_validate,y_validate)
+numClasses = np.unique(y_train).shape[0]
+X_train = addChannelShape(X_train)
+X_validate = addChannelShape(X_validate)
+y_train = to_categorical(y_train)
+y_validate = to_categorical(y_validate)
+model = tf.keras.models.Sequential([
+    tf.keras.layers.GaussianNoise(0.1),
+    tf.keras.layers.Conv1D(128, kernel_size=(31), strides=(8), activation='relu', input_shape=(X_train.shape[1], 1), data_format="channels_last"),
+    tf.keras.layers.Conv1D(128, kernel_size=(31), strides=(8), activation='relu'),
+    tf.keras.layers.MaxPooling1D(pool_size=(2), strides=(2)),
+    tf.keras.layers.Dropout(0.25),
+    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(8), activation='relu'),
+    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(8), activation='relu'),
+    tf.keras.layers.MaxPooling1D(pool_size=(2), strides=(2)),
+    tf.keras.layers.Dropout(0.25),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(1000, activation='relu'),
+    tf.keras.layers.Dense(500, activation='relu'),
+    tf.keras.layers.Dense(250, activation='relu'),
+    tf.keras.layers.Dropout(0.25),
+    tf.keras.layers.Dense(numClasses, activation='softmax')
+])
+#model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+opt = tf.keras.optimizers.RMSprop(lr=0.0001, decay=3e-6)
+model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+model.fit(X_train, y_train, validation_data=(X_validate, y_validate), epochs=10)
+print(model.summary())
+loss, acc = model.evaluate(X_validate, y_validate)#, batch_size=BATCH_SIZE)
+print("Loss: " + str(loss))
+print("Accuracy: " + str(acc))
+y_pred = model.predict(X_validate)
+matrix = confusion_matrix(y_validate.argmax(axis=1), y_pred.argmax(axis=1))
+print(matrix)
