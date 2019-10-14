@@ -118,14 +118,17 @@ X_validate = addChannelShape(X_validate)
 y_train = to_categorical(y_train)
 y_validate = to_categorical(y_validate)
 model = tf.keras.models.Sequential([
-    tf.keras.layers.GaussianNoise(0.1),
-    tf.keras.layers.Conv1D(128, kernel_size=(31), strides=(8), activation='relu', input_shape=(X_train.shape[1], 1), data_format="channels_last"),
-    tf.keras.layers.Conv1D(128, kernel_size=(31), strides=(8), activation='relu'),
-    tf.keras.layers.MaxPooling1D(pool_size=(2), strides=(2)),
+    tf.keras.layers.GaussianNoise(0.01),
+    tf.keras.layers.Conv1D(128, kernel_size=(31), strides=(6), activation='relu', input_shape=(X_train.shape[1], 1), data_format="channels_last"),
+    tf.keras.layers.Conv1D(64, kernel_size=(21), strides=(4), activation='relu'),
     tf.keras.layers.Dropout(0.25),
-    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(8), activation='relu'),
-    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(8), activation='relu'),
-    tf.keras.layers.MaxPooling1D(pool_size=(2), strides=(2)),
+    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(4), activation='relu'),
+    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(4), activation='relu'),
+    #tf.keras.layers.MaxPooling1D(pool_size=(2), strides=(2)),
+    tf.keras.layers.Dropout(0.25),
+    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(4), activation='relu'),
+    tf.keras.layers.Conv1D(64, kernel_size=(11), strides=(4), activation='relu'),
+    #tf.keras.layers.MaxPooling1D(pool_size=(2), strides=(2)),
     tf.keras.layers.Dropout(0.25),
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(1000, activation='relu'),
@@ -135,9 +138,9 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(numClasses, activation='softmax')
 ])
 #model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-opt = tf.keras.optimizers.RMSprop(lr=0.0001, decay=3e-6)
+opt = tf.keras.optimizers.RMSprop(lr=0.0001, decay=1.5e-6)
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
-model.fit(X_train, y_train, validation_data=(X_validate, y_validate), epochs=10)
+model.fit(X_train, y_train, validation_data=(X_validate, y_validate), epochs=20)
 print(model.summary())
 loss, acc = model.evaluate(X_validate, y_validate)#, batch_size=BATCH_SIZE)
 print("Loss: " + str(loss))

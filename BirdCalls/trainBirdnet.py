@@ -90,7 +90,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
-            print(sample.shape)
+            #print(sample.shape)
             xArray.append(sample)
             yArray.append(speciesId)
         #print(x)
