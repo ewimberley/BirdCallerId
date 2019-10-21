@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 PATH_SEPARATOR = "/"
 
 def loadFilterNormalize(dataFile):
-    freq, data = wavFileToNpy("BirdCalls/Data" + PATH_SEPARATOR + dataFile)
+    freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
     time = float(len(data)) / float(freq)
     f, t, x = STFT(data, freq)
     x = np.log10(x + 0.000001)  # noise filter
@@ -40,6 +40,8 @@ def customNormalization(x):
     std = np.std(x, axis=1)
     x = np.transpose(x)
     x = (x - mean) / std
+    #min = abs(np.amin(x))
+    #x = x + min
     #max = np.amax(x)
     #x = x / max
     return x
@@ -49,19 +51,25 @@ def wavePlot(inputSignal, samplingFreq, samples, fileName):
     fig, ax = plt.subplots()
     times = t / samplingFreq
     ax.plot(times, inputSignal[t])
-    ax.set(xlabel='time (s)', ylabel='magnitude',
+    ax.set(xlabel='Time (s)', ylabel='Magnitude',
            title='Waveform')
     ax.grid()
     fig.savefig(fileName)
     plt.close(fig)
     #plt.show()
 
-def plotSTFT(f, t, Zxx, fileName, figsize=(9,5), cmap='magma', ylim_max=None):
+def plotSTFT(f, t, Zxx, fileName, figsize=(9,5), cmap='magma', ylim_max=None, norm=False):
     fig = plt.figure(figsize=figsize)
     ### Different methods can be chosen for normalization: PowerNorm; LogNorm; SymLogNorm.
     ### Reference: https://matplotlib.org/tutorials/colors/colormapnorms.html
     #spec = plt.pcolormesh(t, f, np.abs(Zxx),
-    spec = plt.pcolormesh(t, f, Zxx,
+    if norm:
+        spec = plt.pcolormesh(t, f, Zxx,
+            #norm=colors.LogNorm(vmin=np.abs(Zxx).min(), vmax=np.abs(Zxx).max()),
+            norm=colors.PowerNorm(gamma=1./16.),
+            cmap=plt.get_cmap(cmap))
+    else:
+        spec = plt.pcolormesh(t, f, Zxx,
                           #norm=colors.PowerNorm(gamma=1./16.),
                           #norm=colors.LogNorm(vmin=np.abs(Zxx).min(), vmax=np.abs(Zxx).max()),
                           #norm=colors.SymLogNorm(linthresh=0.13, linscale=1, vmin=-1.0, vmax=1.0),
@@ -71,11 +79,11 @@ def plotSTFT(f, t, Zxx, fileName, figsize=(9,5), cmap='magma', ylim_max=None):
     plt.title('STFT Spectrogram')
     ax = fig.axes[0]
     ax.grid(True)
-    ax.set_title('STFT Magnitude')
+    ax.set_title('STFT')
     if ylim_max:
         ax.set_ylim(0,ylim_max)
-    ax.set_ylabel('Frequency [Hz]')
-    ax.set_xlabel('Time [sec]')
+    ax.set_ylabel('Hz')
+    ax.set_xlabel('Seconds')
     #fig.show()
     #plt.show()
     plt.savefig(fileName)

@@ -13,7 +13,7 @@ def wavePlotDataset(dataFile, sampleLenSeconds, numSamples):
         species = str(row['species'])
         speciesId = str(row['speciesId'])
         dataset = row['dataset']
-        freq, data = wavFileToNpy("Data\\" + dataFile)
+        freq, data = wavFileToNpy("Data/" + dataFile)
         samplingFreq = str(freq) + " Hz"
         time = len(data) / freq
         seconds = (str(int(time)) + " Seconds")
@@ -21,7 +21,7 @@ def wavePlotDataset(dataFile, sampleLenSeconds, numSamples):
         sampleStartIndeces = np.linspace(0, len(data) - sampleLenSeconds*freq, num=numSamples, dtype=np.int32)
         for startIndex in sampleStartIndeces:
             sample = data[startIndex:int(startIndex+sampleLenSeconds*freq)]
-            wavePlot(sample, freq, freq*sampleLenSeconds/10, "QC\\"+str(row['dataset'])+"wave\\" + str(row['id']) + "-" + str(startIndex) + ".png")
+            wavePlot(sample, freq, freq*sampleLenSeconds/10, "QC/"+str(row['dataset'])+"wave/" + str(row['id']) + "-" + str(startIndex) + ".png")
 
 def computeSpeciesTime(dataFile, datasetName):
     df = pd.read_csv(dataFile, sep="\t")
@@ -30,7 +30,7 @@ def computeSpeciesTime(dataFile, datasetName):
         dataset = row['dataset']
         if dataset == datasetName:
             dataFile = str(row['id']) + ".wav"
-            freq, data = wavFileToNpy("Data\\" + dataFile)
+            freq, data = wavFileToNpy("Data/" + dataFile)
             time = len(data) / freq
             speciesId = str(row['speciesId'])
             if speciesId not in speciesToTime:
@@ -54,18 +54,20 @@ def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         species = str(row['species'])
         speciesId = str(row['speciesId'])
         dataset = row['dataset']
-        freq, data = wavFileToNpy("Data\\" + dataFile)
+        freq, data = wavFileToNpy("Data/" + dataFile)
         samplingFreq = str(freq) + " Hz"
         time = len(data) / freq
         seconds = (str(int(time)) + " Seconds")
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         f, t, x = STFT(data, freq)
-        x = np.log10(x+0.000001)
         #x = gaussianNormalization(x)
         #x = maxNormalization(x)
+        plotSTFT(f, t, x, "QC/"+str(row['dataset'])+"/"+str(row['id'])+".png",ylim_max=20000, norm=True)
+        x = np.log10(x+0.000001)
         x = customNormalization(x)
-        plotSTFT(f, t, x, "QC\\"+str(row['dataset'])+"\\"+str(row['id'])+".png",ylim_max=20000)
         x = np.transpose(x)
+        plotSTFT(f, t, x, "QC/"+str(row['dataset'])+"/"+str(row['id'])+"-normalized.png",ylim_max=20000, norm=False)
+        continue
         numWindows = len(x)
         print("Number of windows: " + str(numWindows))
         windowsPerSec = int(numWindows / time) #this is not right?
@@ -88,9 +90,10 @@ def plotDataset(dataFile, sampleLenSeconds, samplesPerMinute):
             yArray = y_test
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
+            sampleF = f[startIndex:endIndex]
             sample = x[startIndex:endIndex,]
             sampleT = t[startIndex:endIndex]
-            plotSTFT(f, sampleT, np.transpose(sample), "QC\\"+str(row['dataset'])+"\\Samples\\"+str(row['id'])+"-"+str(startIndex)+".png",ylim_max=20000)
+            plotSTFT(sampleF, sampleT, np.transpose(sample), "QC/"+str(row['dataset'])+"/Samples/"+str(row['id'])+"-"+str(startIndex)+".png",ylim_max=20000)
 
             #print(sample.shape)
             xArray.append(sample)
@@ -110,7 +113,7 @@ testTimes = computeSpeciesTime("data.csv", "test")
 print("Testing time:")
 print(testTimes)
 
-#plotDataset("data.csv", 10.0, 20)
+plotDataset("data.csv", 10.0, 20)
 #wavePlotDataset("data.csv", 1.0, 20)
 
 exit(0)
@@ -118,9 +121,9 @@ exit(0)
 #Below is for debugging purposes
 
 #freq, data = wavFileToNpy(sys.argv[1])
-#freq, data = wavFileToNpy("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\163829561.wav")
-#freq, data = wavFileToNpy("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\164662831.wav")
-freq, data = wavFileToNpy("C:\\Users\\blank\\Documents\\GitHub\\birdCallClassifier\\Data\\164553531.wav")
+#freq, data = wavFileToNpy("C:/Users/blank/Documents/GitHub/birdCallClassifier/Data/163829561.wav")
+#freq, data = wavFileToNpy("C:/Users/blank/Documents/GitHub/birdCallClassifier/Data/164662831.wav")
+freq, data = wavFileToNpy("Data/164553531.wav")
 
 subsampleSecs = 5.0
 subsampleEnd = int(freq * subsampleSecs)

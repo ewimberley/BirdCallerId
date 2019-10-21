@@ -140,7 +140,7 @@ model = tf.keras.models.Sequential([
 #model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 opt = tf.keras.optimizers.RMSprop(lr=0.0001, decay=1.5e-6)
 model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
-model.fit(X_train, y_train, validation_data=(X_validate, y_validate), epochs=20)
+model.fit(X_train, y_train, validation_data=(X_validate, y_validate), epochs=14)
 print(model.summary())
 loss, acc = model.evaluate(X_validate, y_validate)#, batch_size=BATCH_SIZE)
 print("Loss: " + str(loss))

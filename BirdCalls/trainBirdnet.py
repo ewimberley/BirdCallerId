@@ -33,7 +33,7 @@ def computeSpeciesSamplingRatio(df, datasetName):
         dataset = row['dataset']
         if dataset == datasetName:
             dataFile = str(row['id']) + ".wav"
-            freq, data = wavFileToNpy("BirdCalls/Data" + PATH_SEPARATOR + dataFile)
+            freq, data = wavFileToNpy("Data" + PATH_SEPARATOR + dataFile)
             time = float(len(data)) / float(freq)
             speciesId = str(row['speciesId'])
             if speciesId not in speciesToTime:
@@ -105,7 +105,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("BirdCalls/data.csv", 12.0, 225)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 225)
 print("*" * 30)
 model, matrix, acc = trainModel(X_train, y_train, X_validate,y_validate)
 
