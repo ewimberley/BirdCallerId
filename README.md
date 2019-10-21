@@ -1,5 +1,5 @@
 # BirdNet
-Classifies bird calls using deep learning.
+Classifies bird species calls using deep learning.
 
 ## Bird Call Classifier
 When visualizing sound data for quality and data exploration, simple waveform plots are not very useful. However, the output of a Short Time Fourier Transform (STFT) can be plotted using a heatmap to produce a much more useful spectrogram. This visualization reveals a quality problem with the sound data: noise around the 5kHz range.
