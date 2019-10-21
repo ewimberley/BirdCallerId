@@ -90,7 +90,10 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
-            #print(sample.shape)
+            #sampleT = t[startIndex:endIndex]
+            #plotSTFT(f, sampleT, np.transpose(sample), "QC/" + str(row['dataset']) + "-" + str(row['id']) + "-" + str(startIndex) + ".png", ylim_max=20000, norm=True)
+            sample = customNormalization(sample)
+            #plotSTFT(f, sampleT, np.transpose(sample), "QC/" + str(row['dataset']) + "-" + str(row['id']) + "-" + str(startIndex) + "-normalized.png", ylim_max=20000, norm=False)
             xArray.append(sample)
             yArray.append(speciesId)
         #print(x)
@@ -104,8 +107,9 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     return np.stack(X_train), np.stack(y_train), np.stack(X_validate), np.stack(y_validate), np.stack(X_test), np.stack(y_test)
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 180)
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 225)
+#X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 225)
 print("*" * 30)
 model, matrix, acc = trainModel(X_train, y_train, X_validate,y_validate)
 

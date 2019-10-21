@@ -16,7 +16,8 @@ def loadFilterNormalize(dataFile):
     time = float(len(data)) / float(freq)
     f, t, x = STFT(data, freq)
     x = np.log10(x + 0.000001)  # noise filter
-    x = customNormalization(x)
+    #x = customNormalization(x)
+    x = np.transpose(x)
     return freq, time, f, t, x
 
 def sampleWindows(sampleLenSeconds, samplesPerMinute, time, windowsPerSec, x):
@@ -36,9 +37,9 @@ def sampleWindows(sampleLenSeconds, samplesPerMinute, time, windowsPerSec, x):
     return sampleStartIndeces, windowsPerSample
 
 def customNormalization(x):
-    mean = np.mean(x, axis=1)
-    std = np.std(x, axis=1)
-    x = np.transpose(x)
+    mean = np.mean(x, axis=0)
+    std = np.std(x, axis=0)
+    std = std + 0.00001
     x = (x - mean) / std
     #min = abs(np.amin(x))
     #x = x + min
@@ -65,8 +66,8 @@ def plotSTFT(f, t, Zxx, fileName, figsize=(9,5), cmap='magma', ylim_max=None, no
     #spec = plt.pcolormesh(t, f, np.abs(Zxx),
     if norm:
         spec = plt.pcolormesh(t, f, Zxx,
-            #norm=colors.LogNorm(vmin=np.abs(Zxx).min(), vmax=np.abs(Zxx).max()),
-            norm=colors.PowerNorm(gamma=1./16.),
+            norm=colors.LogNorm(vmin=np.abs(Zxx).min(), vmax=np.abs(Zxx).max()),
+            #norm=colors.PowerNorm(gamma=1./16.),
             cmap=plt.get_cmap(cmap))
     else:
         spec = plt.pcolormesh(t, f, Zxx,
