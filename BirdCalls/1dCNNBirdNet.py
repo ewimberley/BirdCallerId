@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 import pandas as pd
 
-from BirdCalls.birdnetSignalProcessing import wavFileToNpy, sampleWindows
+from BirdCalls.birdnetSignalProcessing import wavFileToNpy, sample_windows
 
 X_train = []
 y_train = []
@@ -80,7 +80,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         seconds = (str(int(time)) + " Seconds")
         samplingFreq = str(freq) + " Hz"
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
-        allSampleStartIndeces, windowsPerSample = sampleWindows(sampleLenSeconds, samplesPerMinute, time, freq, wave)
+        allSampleStartIndeces, windowsPerSample = sample_windows(sampleLenSeconds, samplesPerMinute, time, freq, wave)
         xArray, yArray = getDatasetArrays(dataset)
         sampleStartIndeces = np.random.choice(allSampleStartIndeces, int(speciesSamplingRatio[dataset][speciesId] * len(allSampleStartIndeces)), replace=False)
         if dataset not in samplesPerSpecies:

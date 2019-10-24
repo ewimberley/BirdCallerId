@@ -18,7 +18,7 @@ from keras.models import Model
 from sklearn.metrics import confusion_matrix
 from keras.utils.np_utils import to_categorical
 
-EPOCS = 3
+EPOCS = 6
 HIDDEN_SIZE = 128
 BATCH_SIZE = 32
 LAYERS = 5
@@ -60,7 +60,7 @@ def trainModel(X_train, y_train, X_test, y_test):
     model.add(layers.Dense(numClasses, activation='softmax'))
     #model.compile(loss='categorical_crossentropy', optimizer=optimizers.SGD(lr=0.001), metrics=['accuracy'])
     #model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    opt = optimizers.rmsprop(lr=0.0005, decay=1e-6)
+    opt = optimizers.rmsprop(lr=0.001, decay=1e-6)
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
     print("Training")
     model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=EPOCS, batch_size=BATCH_SIZE)

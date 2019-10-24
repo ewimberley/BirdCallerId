@@ -6,7 +6,7 @@ from BirdCalls.birdnetSignalProcessing import *
 import numpy as np
 import pandas as pd
 
-from BirdCalls.birdnetSignalProcessing import sampleWindows, loadFilterNormalize
+from BirdCalls.birdnetSignalProcessing import sample_windows, loadFilterNormalize
 
 X_train = []
 y_train = []
@@ -76,7 +76,7 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         samplingFreq = str(freq) + " Hz"
         print(dataFile + "\t" + species + "\t" + speciesId + "\t" + samplingFreq + "\t" + seconds)
         windowsPerSec = int(len(x) / time)
-        allSampleStartIndeces, windowsPerSample = sampleWindows(sampleLenSeconds, samplesPerMinute, time, windowsPerSec, x)
+        allSampleStartIndeces, windowsPerSample = sample_windows(sampleLenSeconds, samplesPerMinute, time, windowsPerSec, x)
         xArray, yArray = getDatasetArrays(dataset)
         sampleStartIndeces = np.random.choice(allSampleStartIndeces, int(speciesSamplingRatio[dataset][speciesId] * len(allSampleStartIndeces)), replace=False)
         if dataset not in samplesPerSpecies:
@@ -90,10 +90,10 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
         for startIndex in sampleStartIndeces:
             endIndex = startIndex + windowsPerSample
             sample = x[startIndex:endIndex,]
-            #sampleT = t[startIndex:endIndex]
+            sampleT = t[startIndex:endIndex]
             #plotSTFT(f, sampleT, np.transpose(sample), "QC/" + str(row['dataset']) + "-" + str(row['id']) + "-" + str(startIndex) + ".png", ylim_max=20000, norm=True)
             sample = customNormalization(sample)
-            #plotSTFT(f, sampleT, np.transpose(sample), "QC/" + str(row['dataset']) + "-" + str(row['id']) + "-" + str(startIndex) + "-normalized.png", ylim_max=20000, norm=False)
+            #plotSTFT(f, sampleT, np.transpose(sample), "QC/" + str(row['dataset']) + "-" + str(row['id']) + "-" + str(startIndex) + "-normalized.png", ylim_max=20000, norm=True)
             xArray.append(sample)
             yArray.append(speciesId)
         #print(x)
@@ -107,7 +107,8 @@ def createDataset(dataFile, sampleLenSeconds, samplesPerMinute):
     return np.stack(X_train), np.stack(y_train), np.stack(X_validate), np.stack(y_validate), np.stack(X_test), np.stack(y_test)
     #return X_train, y_train, X_validate, y_validate, X_test, y_test
 
-X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 180)
+#X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 100)
+X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 160)
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 10.0, 200)
 #X_train, y_train, X_validate, y_validate, X_test, y_test = createDataset("data.csv", 12.0, 225)
 print("*" * 30)
