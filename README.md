@@ -1,4 +1,4 @@
-# BirdNet
+# BirdCallerId
 Classifies bird species using deep learning.
 
 ## Bird Call Classifier
